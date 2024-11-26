@@ -1,0 +1,132 @@
+.partida-privada {
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+  width: 100vw;
+  background: url('../../images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  position: relative;
+}
+  
+.priv-izquierda {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw;
+}
+
+.priv-personaje-hablando {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.priv-personaje-hablando img {
+    width: 50vw; 
+    max-width: 500px;
+  }
+  
+.priv-cuadro-dialogo {
+    position: absolute;
+    top: -3vw;
+    left: 30vw;
+    background: white;
+    color: black;
+    padding: 1.5vw;
+    border-radius: 1vw;
+    font-size: 1.5rem;
+    box-shadow: 0px 0.4vw 0.8vw rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    max-width: 280px; 
+    text-align: center;
+}
+
+.priv-cuadro-dialogo::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -1.2vw; 
+    width: 0;
+    height: 0;
+    border-top: 1.2vw solid transparent;
+    border-bottom: 1.2vw solid transparent;
+    border-right: 1.2vw solid white;
+}
+
+.priv-derecha {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 0.5vw;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+  }
+  
+.codigo-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+  
+.codigo-input label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+  
+.codigo-input input {
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 2px solid #555;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+    color: white;
+}
+  
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+button:hover {
+    background-color: #d62839;
+}
+
+.volver-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 30vw;
+  position: absolute;
+  left: 20%;
+  top: 95%;
+  transform: translate(-50%, -50%);
+  background-color: #4e4e4e;
+  color: #fff;
+}
+
+.volver-btn:hover {
+  background-color: #333;
+  transform: translate(-50%, -50%) scale(1.05);
+}

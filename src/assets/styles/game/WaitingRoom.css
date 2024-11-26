@@ -1,0 +1,142 @@
+.personajes {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 93vh;
+    width: 100vw;
+    background: url('../../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.personaje-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 200px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.personaje-card:hover {
+    transform: scale(1.05);
+}
+
+.personaje-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.personaje-card h2 {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Botón circular de selección */
+.select-circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 10px auto 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.select-circle.selected {
+    background-color: #000;
+    border-color: #000;
+}
+
+.character-name {
+    font-size: 0.9em;
+    color: #f0f0f0;
+    margin-top: 5px;
+}
+
+/* Contenedor para los botones */
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+/* Estilos para los botones */
+.start-game-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 30vw;
+    margin-right: 10vw;
+}
+
+.leave-game-btn {
+    padding: 8px 20px; /* Reducir el padding para hacer los botones más pequeños */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 30vw;
+    margin-left: 10vw;
+}
+
+/* Estilos para el botón de iniciar partida */
+.start-game-btn {
+    background-color: #ff5c5c;
+    color: #fff;
+}
+
+.start-game-btn:hover {
+    background-color: #ff0000;
+    transform: scale(1.05); /* Reducción en el tamaño de escalado */
+}
+
+/* Estilos para el botón de salir de la partida */
+.leave-game-btn {
+    background-color: #4e4e4e;
+    color: #fff;
+}
+
+.leave-game-btn:hover {
+    background-color: #333;
+    transform: scale(1.05); /* Reducción en el tamaño de escalado */
+}
+
+.personaje-card.taken {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.select-circle.selected {
+    background-color: #4CAF50;
+    border: 2px solid #ffffff;
+}
+
+.character-name {
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 10px;
+}

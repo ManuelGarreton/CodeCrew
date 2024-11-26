@@ -1,0 +1,43 @@
+.aboutus {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    height: 93vh;
+    width: 100vw;
+    background: url('../../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.about-section {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con transparencia */
+    border-radius: 15px;
+    border: 1px solid #444;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
+    color: #e0e0e0;
+    text-align: left;
+}
+
+.about-section h1 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.2em;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.about-section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #ddd;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: justify;
+    margin-bottom: 20px;
+}

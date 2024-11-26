@@ -1,0 +1,80 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.landing-page {
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+  height: 90vh;
+  width: 100vw;
+  background: url('../../images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.title {
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.title h1 {
+  font-size: 4vw;
+  line-height: 0.8;
+  margin-left: 2%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.title h2 {
+  font-size: 3vw;
+  line-height: 0;
+  margin-left: 5%;
+  margin-top: -1vh;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.button-container {
+  display: flex;
+  margin-top: 10vh;
+  margin-left: 8vw;
+  text-align: left;
+  gap: 15px;
+}
+
+.button-container a {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #d9534f;
+  border: 1px solid #d9534f;
+}
+
+.button-container a.secondary {
+  background-color: #868686;
+  color: #ffffff;
+  border: 1px solid #868686;
+}
+
+.button-container a:hover {
+  opacity: 0.9;
+  border: 1px solid #000000;
+}
+
+.button-container a:hover.secondary {
+  background-color: #747474;
+  border: 1px solid #000000;
+}

@@ -1,0 +1,92 @@
+.register {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 93vh;
+    width: 100vw;
+    background: url('../../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.register-box {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4vh;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 32vw;
+    width: 40vw;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 1vh;
+}
+
+.register-box h1 {
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
+    margin-bottom: 1vh;
+    font-size: 5vh;
+}
+
+.register-box label {
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: left;
+    color: #ddd;
+    font-size: 2.5vh;
+    margin-top: 2vh;
+}
+
+.register-box input[type="text"],
+.register-box input[type="email"],
+.register-box input[type="password"] {
+    width: 95%;
+    padding: 2vh;
+    margin-top: 1vh;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 2.5vh;
+}
+
+.register-box input:focus {
+    border-color: #d9534f;
+    outline: none;
+}
+
+.register-box button {
+    width: 100%;
+    padding: 2vh;
+    margin-top: 3vh;
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 3vh;
+}
+
+.register-box button:hover {
+    opacity: 0.9;
+}
+
+.login-link {
+    display: block;
+    margin-top: 3vh;
+    font-size: 2.5vh;
+    color: #ccc;
+}
+
+.login-link a {
+    color: #f08a8a;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,283 @@
+.publics-partida-selector {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+    width: 100vw;
+    background: url('../../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    position: relative;
+}
+
+.publics-izquierda {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw;
+}
+
+.publics-personaje-hablando {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.publics-personaje-hablando img {
+    width: 20vw;
+    max-width: 250px;
+}
+
+.publics-cuadro-dialogo {
+    position: absolute;
+    top: -3vw;
+    left: 15vw;
+    background: white;
+    color: black;
+    padding: 1.5vw;
+    border-radius: 1vw;
+    font-size: 1.5rem;
+    box-shadow: 0px 0.4vw 0.8vw rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    max-width: 280px;
+    text-align: center;
+}
+
+.publics-cuadro-dialogo::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -1.2vw;
+    width: 0;
+    height: 0;
+    border-top: 1.2vw solid transparent;
+    border-bottom: 1.2vw solid transparent;
+    border-right: 1.2vw solid white;
+}
+
+.publics-boton-privado {
+    margin-top: 2vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5vw 1vw;
+    border: 0.2vw solid #fff;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 20vw;
+    max-width: 250px;
+    text-align: center;
+}
+
+.publics-boton-privado:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.publics-derecha {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 0.5vw;
+    width: 70%;
+    max-width: 900px;
+    margin-left: auto;
+    position: relative;
+}
+
+.publics-derecha h2 {
+    font-size: 2vw;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1vw;
+    padding-bottom: 0.5vw;
+    width: 100%;
+}
+
+.publics-partidas-publicas {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+}
+
+.publics-partida-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1vw;
+    border-radius: 0.5vw;
+    box-shadow: 0px 0.4vw 0.8vw rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 600px;
+    gap: 10px;
+}
+
+.publics-partida-card span {
+    width: 60%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.publics-progress-bar {
+    width: 60%;
+    height: 1vh;
+    background-color: #555;
+    border-radius: 0.5vw;
+    overflow: hidden;
+    margin: 0 1vw;
+}
+
+.publics-progress-0 {
+    width: 0%;
+    height: 100%;
+    background-color: #fff537;
+    border-radius: 0.5vw;
+    transition: width 0.3s ease;
+}
+
+.publics-progress-1 {
+    width: 25%;
+    height: 100%;
+    background-color: #fff537;
+    border-radius: 0.5vw;
+    transition: width 0.3s ease;
+}
+
+.publics-progress-2 {
+    width: 50%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 0.5vw;
+    transition: width 0.3s ease;
+}
+
+.publics-progress-3 {
+    width: 75%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 0.5vw;
+    transition: width 0.3s ease;
+}
+
+.publics-progress-4 {
+    width: 100%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 0.5vw;
+    transition: width 0.3s ease;
+}
+
+.publics-partida-card button {
+    background: none;
+    width: 40%;
+    border: none;
+    color: #ffffff;
+    font-size: 2vw;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.flecha-izquierda, .flecha-derecha {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.flecha-izquierda {
+    border-width: 30px 40px 30px 40px;
+    border-color: transparent #ffffff transparent transparent;
+    left: -30px;
+}
+
+.flecha-derecha {
+    border-width: 30px 40px 30px 40px;
+    border-color: transparent transparent transparent #ffffff;
+    right: -30px;
+}
+
+.buscador-input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 90%;
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .publics-partida-selector {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .publics-izquierda, .publics-derecha {
+        width: 100%;
+        padding: 5vw;
+        align-items: center;
+    }
+
+    .publics-cuadro-dialogo {
+        top: -1vw;
+        left: 8vw;
+        font-size: 1.2rem;
+    }
+
+    .publics-derecha h2 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .publics-partida-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1vh;
+    }
+
+    .publics-progress-bar {
+        width: 80%;
+    }
+
+    .flecha-izquierda {
+        left: 10px;
+    }
+
+    .flecha-derecha {
+        right: 10px;
+    }
+}
+
+.volver-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 30vw;
+    position: absolute;
+    left: 20%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+    background-color: #4e4e4e;
+    color: #fff;
+}
+
+.volver-btn:hover {
+    background-color: #333;
+    transform: translate(-50%, -50%) scale(1.05);
+}

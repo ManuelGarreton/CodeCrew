@@ -1,0 +1,23 @@
+.logout-button {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    font-size: clamp(12px, 1vw, 18px);
+    padding: 1.3vh 1vw;
+    margin-top: 0.7vh;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #555;
+}
+
+.successMsg {
+    color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
