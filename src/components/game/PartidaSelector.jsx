@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/game/PartidaSelector.css';
 import { AuthContext } from '../auth/authContext';
 
-import TristianLuz from '../../assets/images/personajes/TristianLuz.png';
+import TristianLuz from '../../../public/images/personajes/TristianLuz.png';
 
 function PartidaSelector() {
     const { token, userData } = useContext(AuthContext);
@@ -15,14 +16,14 @@ function PartidaSelector() {
     const itemsPerPage = 5; // Cantidad de partidas por página
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/matches/publics`, {
+        axios.get(`${API_URL}/matches/publics`, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(async response => {
             const partidasConCupos = await Promise.all(
                 response.data.partidasPublicas.map(async (partida) => {
                     try {
-                        const salaResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/waiting_room/${partida.id}`, {
+                        const salaResponse = await axios.get(`${API_URL}/waiting_room/${partida.id}`, {
                             headers: { Authorization: `Bearer ${token}` }
                         });
                         const cantidadJugadores = salaResponse.data.cantidadJugadores || 0;
@@ -41,7 +42,7 @@ function PartidaSelector() {
     }, [token]);
 
     const createPartidaPublica = () => {
-        axios.post(`${import.meta.env.VITE_BACKEND_URL}/matches`, { privada: false }, {
+        axios.post(`${API_URL}/matches`, { privada: false }, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
@@ -56,7 +57,7 @@ function PartidaSelector() {
     };
 
     const joinPartida = (idPartida) => {
-        axios.post(`${import.meta.env.VITE_BACKEND_URL}/waiting_room/join`, {
+        axios.post(`${API_URL}/waiting_room/join`, {
             idUser: userData?.id,
             idGame: idPartida
         }, {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { AuthContext } from '../auth/authContext';
 import { SocketContext } from '../sockets/SocketContext';
 import '../../assets/styles/common/register.css';
@@ -22,7 +23,7 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, formData)
+    axios.post(`${API_URL}/users/register`, formData)
       .then((response) => {
         if (response.status === 200) {
           const accessToken = response.data.token;

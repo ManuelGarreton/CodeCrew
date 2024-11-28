@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/game/PartidaPrivada.css';
 import { AuthContext } from '../auth/authContext';
 
-import TristianLuz from '../../assets/images/personajes/TristianLuz.png';
+import TristianLuz from '../../../public/images/personajes/TristianLuz.png';
 
 function PartidaPrivada() {
   const { token, userData } = useContext(AuthContext);
@@ -14,7 +15,7 @@ function PartidaPrivada() {
 
   // Crear una partida privada y mostrar el ID como código
   const handleCreatePartidaPrivada = () => {
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/matches`, { privada: true }, {
+    axios.post(`${API_URL}/matches`, { privada: true }, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(response => {
@@ -27,7 +28,7 @@ function PartidaPrivada() {
 
   // Unirse a una partida privada y a la sala de espera, luego redirigir a la sala de espera
   const joinPartida = (codigoPartida) => {
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/waiting_room/join`, {
+    axios.post(`${API_URL}/waiting_room/join`, {
         idUser: userData?.id,
         idGame: codigoPartida
     }, {

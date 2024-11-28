@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import '../../assets/styles/game/characters.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 // Imágenes locales de respaldo
-import ValeryHuskovic from '../../assets/images/personajes/ValeryHuskovic.png';
-import KingGeorge from '../../assets/images/personajes/KingGeorge.png';
-import HernyCobrera from '../../assets/images/personajes/HernyCobrera.png';
-import TristianLuz from '../../assets/images/personajes/TristianLuz.png';
+import ValeryHuskovic from '../../../public/images/personajes/ValeryHuskovic.png';
+import KingGeorge from '../../../public/images/personajes/KingGeorge.png';
+import HernyCobrera from '../../../public/images/personajes/HernyCobrera.png';
+import TristianLuz from '../../../public/images/personajes/TristianLuz.png';
 
 const localImages = {
     ValeryHuskovic,
@@ -21,7 +22,7 @@ function Characters() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/characters`)
+        axios.get(`${API_URL}/characters`)
             .then(response => {
                 const dataWithImages = response.data.map(character => {
                     let imgSrc;

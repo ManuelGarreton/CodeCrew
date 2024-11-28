@@ -35,7 +35,7 @@ function Routing() {
                     <Route path={'/personajes-vista'} element={<> <Navbar/><CharactersView/> </>} />
                     <Route path={'/waiting-room/:idGame'} element={<> <Navbar/><WaitingRoom/> </>} /> {/* Parámetro idGame */}
                     <Route path={'/seleccionar-partida'} element={<> <Navbar/><PartidaSelector/> </>} />
-                    <Route path={"/tablero/:idGame"} element={<> <NavbarHome/><Board/> </>} />
+                    <Route path={"/board/:idGame"} element={<> <NavbarHome/><Board/> </>} />
                     <Route path={'/modo-partida'} element={<> <Navbar/><EleccionModoPartida /> </>} />
                     <Route path={'/partida-privada'} element={<> <Navbar/><PrivateGame /> </>} /> 
                 </Routes>

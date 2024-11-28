@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../auth/authContext';
 import axios from 'axios';
-import API_URL from '../config';
+import { API_URL } from '../config';
 import { SocketContext } from '../sockets/SocketContext';
 import '../../assets/styles/game/WaitingRoom.css';
 
 
-import ValeryHuskovic from '../../assets/images/personajes/ValeryHuskovic.png';
-import KingGeorge from '../../assets/images/personajes/KingGeorge.png';
-import HernyCobrera from '../../assets/images/personajes/HernyCobrera.png';
-import TristianLuz from '../../assets/images/personajes/TristianLuz.png';
+import ValeryHuskovic from '../../../public/images/personajes/ValeryHuskovic.png';
+import KingGeorge from '../../../public/images/personajes/KingGeorge.png';
+import HernyCobrera from '../../../public/images/personajes/HernyCobrera.png';
+import TristianLuz from '../../../public/images/personajes/TristianLuz.png';
 
 const WaitingRoom = () => {
     const { idGame } = useParams();
@@ -23,10 +23,10 @@ const WaitingRoom = () => {
     const { userData } = useContext(AuthContext);
 
     const characters = [
-        { id: 1, name: "Valery Huskovic", imgSrc: ValeryHuskovic },
+        { id: 1, name: "Herny Cobrera", imgSrc: HernyCobrera },
         { id: 2, name: "King George Moñoz", imgSrc: KingGeorge },
-        { id: 3, name: "Herny Cobrera", imgSrc: HernyCobrera },
-        { id: 4, name: "Tristian Luz", imgSrc: TristianLuz },
+        { id: 3, name: "Tristian Luz", imgSrc: TristianLuz  },
+        { id: 4,name: "Valery Huskovic", imgSrc: ValeryHuskovic },
     ];
 
     useEffect(() => {
@@ -81,7 +81,7 @@ const WaitingRoom = () => {
         }
     
         const handleStartGame = (idGame) => {
-            window.location.href = `/tablero/${idGame}`;
+            window.location.href = `/board/${idGame}`;
         };
     
         console.log("Registrando listener para 'startGame'");
@@ -135,64 +135,82 @@ const WaitingRoom = () => {
             return;
         }
     
-        let jugadorId = null;
-        
-        await Promise.all(Object.entries(characterAssignments).map(async ([personaje, userInfo]) => {
-            const userId = userInfo.idUser;
+        let jugadorId = null; // Para guardar el ID del moderador
+        const jugadores = []; // Lista para enviar al backend
     
-            try {
-                let Data = await axios.post(`${API_URL}/players/create`, {
-                    idUsuario: userId,
-                    idPersonaje: personaje,
-                    idPartida: idGame
-                });
-                
-                const jugador = Data.data.data_jugador;
+        await Promise.all(
+            Object.entries(characterAssignments).map(async ([personaje, userInfo]) => {
+                const userId = userInfo.idUser;
     
-                if (!jugador) {
-                    alert("Error al crear el jugador.");
-                    return;
-                }
-    
-                console.log("Jugador creado:", jugador.id);
-                
-                if (waitingRoomData && userId === waitingRoomData.Jugadores[0].idUsuario) {
-                    jugadorId = jugador.id;
-                    
-                    await axios.patch(`${API_URL}/players/edit/${jugadorId}`, {
-                        "idPartida": idGame,
-                        "idPersonaje": personaje,
-                        "PuntosDeAura": 0,
-                        "inventario": [],
-                        "moderador": true
+                try {
+                    // Crear el jugador en la base de datos
+                    const response = await axios.post(`${API_URL}/players/create`, {
+                        idUsuario: userId,
+                        idPersonaje: personaje,
+                        idPartida: idGame,
                     });
-                    console.log("Moderador creado:", jugadorId);
+    
+                    const jugador = response.data.data_jugador;
+    
+                    if (!jugador) {
+                        alert("Error al crear el jugador.");
+                        return;
+                    }
+    
+                    console.log("Jugador creado:", jugador.id);
+    
+                    // Actualizar el jugador como moderador si aplica
+                    if (waitingRoomData && userId === waitingRoomData.Jugadores[0].idUsuario) {
+                        jugadorId = jugador.id;
+    
+                        await axios.patch(`${API_URL}/players/edit/${jugadorId}`, {
+                            idPartida: idGame,
+                            idPersonaje: personaje,
+                            PuntosDeAura: 0,
+                            inventario: [],
+                            moderador: true,
+                        });
+                        console.log("Moderador asignado:", jugadorId);
+                    }
+    
+                    // Agregar datos del jugador a la lista
+                    jugadores.push({
+                        idJugador: jugador.id,
+                        idUsuario: userId,
+                        personaje,
+                        posicion: { x: 6, y: 15 }, // Posición inicial
+                        inventario: [], // Inventario inicial vacío
+                    });
+                } catch (error) {
+                    console.error("Error al crear el jugador:", error);
                 }
-            }
-            catch (error) {
-                console.error("Error al crear el jugador:", error);
-            }
-        }));
+            })
+        );
     
         if (jugadorId) {
             try {
+                // Asociar la partida con los jugadores
                 await axios.post(`${API_URL}/matches/join`, { idGame });
-
-                const DataUsuariosPartida = await axios.get(`${API_URL}/waiting_room/${idGame}`);
-                const lista_id_usuarios = DataUsuariosPartida.data.Jugadores.map(jugador => jugador.idUsuario);
-
-                await axios.post(`${API_URL}/board/create`, { idGame });
-
+    
+                // Crear el tablero en la base de datos con los jugadores
+                await axios.post(`${API_URL}/board/create`, {
+                    idGame,
+                    jugadores, // Enviar la lista completa de jugadores al backend
+                });
+                
+                
+                // Iniciar la partida
                 const response = await axios.post(`${API_URL}/matches/start`, { idGame, idPlayer: jugadorId });
                 console.log(response.data.message);
-                
-                socket.current.emit("startGameForUsers", { idGame, lista_id_usuarios });                
     
+                // Emitir evento al socket
+                const lista_id_usuarios = jugadores.map((jugador) => jugador.idUsuario);
+                socket.current.emit("startGameForUsers", { idGame, jugadores });
+                console.log("Partida iniciada con jugadores:", jugadores);
             } catch (error) {
                 console.error("Error al iniciar la partida:", error);
             }
-        }
-        else {
+        } else {
             console.error("No se pudo obtener el ID del jugador para iniciar la partida.");
         }
     };

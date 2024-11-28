@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/game/EleccionModoPartida.css';
 
 // Importa la imagen del personaje Valery
-import ValeryHuskovic from '../../assets/images/personajes/ValeryHuskovic.png';
+import ValeryHuskovic from '../../../public/images/personajes/ValeryHuskovic.png';
 
 function EleccionModoPartida() {
     const navigate = useNavigate();

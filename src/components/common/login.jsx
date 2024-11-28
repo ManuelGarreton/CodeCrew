@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { AuthContext } from '../auth/authContext';
 import { SocketContext } from '../sockets/SocketContext';
 import '../../assets/styles/common/login.css';
@@ -20,7 +21,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/login`, formData)
+    axios.post(`${API_URL}/users/login`, formData)
       .then((response) => {
         if (response.status === 200) {
           const accessToken = response.data.token;
