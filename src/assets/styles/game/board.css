@@ -291,6 +291,16 @@
   transition: background-color 0.3s;
 }
 
-.move-button:hover {
-  background-color: #45a049;
+.cell {
+  position: relative;
 }
+
+.coin-marker {
+  position: absolute;
+  top: 10%; /* Ajusta la posición de la moneda dentro de la celda */
+  left: 10%;
+  font-size: 1.5rem; /* Tamaño de la moneda */
+  z-index: 2; /* Asegúrate de que la moneda esté sobre otros elementos */
+  pointer-events: none; /* Evita interferencia con clics */
+}
+

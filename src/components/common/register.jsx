@@ -1,14 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
-import { AuthContext } from '../auth/authContext';
-import { SocketContext } from '../sockets/SocketContext';
 import '../../assets/styles/common/register.css';
 
 function Register() {
-  const { setToken, setUserData } = useContext(AuthContext);
-  const { connectSocket } = useContext(SocketContext);
-
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -26,14 +21,7 @@ function Register() {
     axios.post(`${API_URL}/users/register`, formData)
       .then((response) => {
         if (response.status === 200) {
-          const accessToken = response.data.token;
-          const userData = response.data.user;
-          console.log('userData:', userData);
-
-          setToken(accessToken);
-          setUserData(userData);
-
-          connectSocket(userData.id);
+          // Redirigir al usuario a la página de inicio de sesión
           window.location.href = '/ingreso';
         }
       })
@@ -43,60 +31,58 @@ function Register() {
   };
 
   return (
-    <>
-      <div className="register">
-        <div className="register-box">
-          <h1>Nuevo Usuario</h1>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Usuario:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
+    <div className="register">
+      <div className="register-box">
+        <h1>Nuevo Usuario</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Usuario:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
 
-            <label htmlFor="email">Correo Electrónico:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="email">Correo Electrónico:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Mínimo 8 caracteres"
-            />
+          <label htmlFor="password">Contraseña:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            placeholder="Mínimo 8 caracteres"
+          />
 
-            <label htmlFor="confirm_password">Repetir Contraseña:</label>
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="confirm_password">Repetir Contraseña:</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
 
-            <button type="submit">Comenzar</button>
-          </form>
-          <p className="login-link">
-            ¿Ya tienes cuenta? <a href="/ingreso">Inicia sesión</a>
-          </p>
-        </div>
+          <button type="submit">Comenzar</button>
+        </form>
+        <p className="login-link">
+          ¿Ya tienes cuenta? <a href="/ingreso">Inicia sesión</a>
+        </p>
       </div>
-    </>
+    </div>
   );
 }
 

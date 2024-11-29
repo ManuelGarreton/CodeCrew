@@ -21,6 +21,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     axios.post(`${API_URL}/users/login`, formData)
       .then((response) => {
         if (response.status === 200) {
@@ -30,8 +31,15 @@ function Login() {
           setToken(accessToken);
           setUserData(userData);
           connectSocket(userData.id);
-  
-          window.location.href ='/modo-partida';
+
+          // **Redirigir según el rol del usuario**
+          
+          if (userData.admin) {
+            window.location.href = '/admin/games'; // Página de administración para el administrador
+          } else {
+            
+            window.location.href = '/modo-partida'; // Página estándar para usuarios normales
+          }
         }
       })
       .catch((error) => {

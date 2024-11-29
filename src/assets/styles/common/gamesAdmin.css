@@ -1,0 +1,119 @@
+.admin-games-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background: url('../../../../public/images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    padding: 40px 20px; 
+    position: relative;
+  }
+  
+  .admin-games-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px #000;
+    text-align: center;
+  }
+  
+  .admin-search-input {
+    padding: 15px;
+    width: 60%;
+    max-width: 600px;
+    margin-bottom: 30px;
+    border: 2px solid #555;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  .admin-games-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 1000px; /* Más ancho para que no se vea comprimido */
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+  }
+  
+  .admin-game-card {
+    display: flex;
+    flex-direction: row; /* Cambiar a fila para más espacio */
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 85%;
+    font-size: 1.2rem; /* Texto más grande para mejor legibilidad */
+    gap: 1vw;
+  }
+  
+  .admin-game-card p {
+    margin: 0 10px;
+  }
+  
+  .admin-delete-button {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s ease;
+  }
+  
+  .admin-delete-button:hover {
+    background-color: #c9302c;
+  }
+  
+  .admin-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+  }
+  
+  .admin-pagination-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  .admin-pagination-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .admin-back-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .admin-back-button:hover {
+    background-color: #218838;
+  }
+  

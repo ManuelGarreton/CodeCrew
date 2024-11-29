@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../auth/authContext';
 import axios from 'axios';
 import { API_URL } from '../config';
@@ -21,6 +21,7 @@ const WaitingRoom = () => {
     const [waitingRoomData, setWaitingRoomData] = useState(null); // Nuevo estado
     const { socket } = useContext(SocketContext);
     const { userData } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const characters = [
         { id: 1, name: "Herny Cobrera", imgSrc: HernyCobrera },
@@ -44,7 +45,7 @@ const WaitingRoom = () => {
             .catch((error) => {
                 console.error("Error al verificar el moderador:", error);
             });
-    }, [idGame, userData.id]);
+    }, []); //idGame, userData.id
 
     useEffect(() => {
         if (!idGame || !socket.current) return;
@@ -72,7 +73,7 @@ const WaitingRoom = () => {
             socket.current.off("playerUpdated", handlePlayerUpdate);
             socket.current.off("characterAssignments", handleCharacterAssignmentsUpdate);
         };
-    }, [socket, idGame]);
+    }, [socket.current]);
 
     useEffect(() => {
         if (!socket.current) {
@@ -80,18 +81,20 @@ const WaitingRoom = () => {
             return;
         }
     
-        const handleStartGame = (idGame) => {
-            window.location.href = `/board/${idGame}`;
+        const handleStartGame = (data) => {
+            console.log("Iniciando partida:", data.idGame);
+            navigate(`/board/${idGame}`);
         };
     
         console.log("Registrando listener para 'startGame'");
-        socket.current.on("startGameForUser", handleStartGame);
+        socket.current.on("startPlayer", handleStartGame);
     
         return () => {
             console.log("Desmontando listener para 'startGame'");
-            socket.current.off("startGameForUser", handleStartGame);
+            socket.current.off("startPlayer", handleStartGame);
         };
-    }, [socket]);
+    }, [socket.current]);
+    
     
 
     const handleCharacterSelect = (characterId) => {
@@ -135,7 +138,7 @@ const WaitingRoom = () => {
             return;
         }
     
-        let jugadorId = null; // Para guardar el ID del moderador
+        let moderadorId = null; // Para guardar el ID del moderador
         const jugadores = []; // Lista para enviar al backend
     
         await Promise.all(
@@ -161,16 +164,16 @@ const WaitingRoom = () => {
     
                     // Actualizar el jugador como moderador si aplica
                     if (waitingRoomData && userId === waitingRoomData.Jugadores[0].idUsuario) {
-                        jugadorId = jugador.id;
+                        moderadorId = jugador.id;
     
-                        await axios.patch(`${API_URL}/players/edit/${jugadorId}`, {
+                        await axios.patch(`${API_URL}/players/edit/${moderadorId}`, {
                             idPartida: idGame,
                             idPersonaje: personaje,
                             PuntosDeAura: 0,
                             inventario: [],
                             moderador: true,
                         });
-                        console.log("Moderador asignado:", jugadorId);
+                        console.log("Moderador asignado:", moderadorId);
                     }
     
                     // Agregar datos del jugador a la lista
@@ -187,7 +190,7 @@ const WaitingRoom = () => {
             })
         );
     
-        if (jugadorId) {
+        if (moderadorId) {
             try {
                 // Asociar la partida con los jugadores
                 await axios.post(`${API_URL}/matches/join`, { idGame });
@@ -200,20 +203,22 @@ const WaitingRoom = () => {
                 
                 
                 // Iniciar la partida
-                const response = await axios.post(`${API_URL}/matches/start`, { idGame, idPlayer: jugadorId });
+                const response = await axios.post(`${API_URL}/matches/start`, { idGame, idPlayer: moderadorId });
                 console.log(response.data.message);
     
                 // Emitir evento al socket
-                const lista_id_usuarios = jugadores.map((jugador) => jugador.idUsuario);
-                socket.current.emit("startGameForUsers", { idGame, jugadores });
+                console.log(socket.current.connected);
+                socket.current.emit("startGameForUsers", { idGame, jugadores, socketId: socket.current.id });
                 console.log("Partida iniciada con jugadores:", jugadores);
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error al iniciar la partida:", error);
             }
         } else {
             console.error("No se pudo obtener el ID del jugador para iniciar la partida.");
         }
     };
+    
     
     const leaveGame = () => {
         if (selectedCharacter !== null) {

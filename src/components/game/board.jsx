@@ -52,7 +52,12 @@ function Board() {
   const [originalBoard, setOriginalBoard] = useState([]);
   const [board, setBoard] = useState([]);
   const [jugadores, setJugadores] = useState([]);
-  const [jugadorActual, setJugadorActual] = useState(null);
+  const [jugadorActual, setJugadorActual] = useState({
+    Personaje: { nombre: "Desconocido" },
+    posicion: { x: 1, y: 14 },
+    estadisticas: { PuntosDeAura: 0, vida: 0, dano: 0 },
+  });
+  
   const [inventarioVisible, setInventarioVisible] = useState(false);
   const [dadoResultado, setDadoResultado] = useState(null);
   const [movimientosRestantes, setMovimientosRestantes] = useState(0);
@@ -78,16 +83,17 @@ function Board() {
     axios
       .get(`${API_URL}/board/${idGame}`)
       .then((response) => {
-        const { tableroOriginal, jugadores } = response.data;
-        console.log("Tablero cargado:", tableroOriginal); // Log para depuración
-        console.log("Jugadores cargados:", jugadores); // Log para depuración
+        const { tableroOriginal, jugadores } = response.data || {};
         setBoard(tableroOriginal || []);
         setJugadores(jugadores || []);
+        console.log("Tablero cargado:", tableroOriginal);
       })
-      
-      .catch((error) => console.error("Error al obtener el tablero:", error));
-      
+      .catch((error) => {
+        console.error("Error al obtener el tablero:", error);
+        setBoard([]); // Establece un fallback seguro
+      });
   };
+  
 
 
 
@@ -196,29 +202,55 @@ function Board() {
   };
   
 
-  const renderCell = (cellData, rowIndex, colIndex) => {
-    const [cellType, cellSubType] = cellData.split('-');
-    const cellId = `${cellType}${cellSubType ? '-' + cellSubType : ''}`;
-    const imageSrc = imageMap[cellId] || null;
+const renderCell = (cellData, rowIndex, colIndex) => {
+  if (!cellData) return null;
 
-    const isCurrentPlayer = jugadorActual && jugadorActual.posicion.x === rowIndex + 1 && jugadorActual.posicion.y === colIndex + 1;
-    const otroJugador = jugadores.find(jugador =>
-      jugador.idJugador !== jugadorActual?.idJugador && 
-      jugador.posicion.x === rowIndex + 1 && 
+  const [cellType, cellVisited] = cellData.split("-"); // Analiza el tipo y el estado "false"
+  const cellId = `${cellType}-${cellVisited}`;
+  const imageSrc = imageMap[cellId] || null;
+
+  const isCurrentPlayer =
+    jugadorActual &&
+    jugadorActual.posicion &&
+    jugadorActual.posicion.x === rowIndex + 1 &&
+    jugadorActual.posicion.y === colIndex + 1;
+
+  const otroJugador = jugadores.find(
+    (jugador) =>
+      jugador.posicion &&
+      jugador.idJugador !== jugadorActual?.idJugador &&
+      jugador.posicion.x === rowIndex + 1 &&
       jugador.posicion.y === colIndex + 1
-    );
+  );
 
-    return (
-      <div 
-        key={`${rowIndex}-${colIndex}`} 
-        className={`cell ${getClass(cellType)} ${isCurrentPlayer ? 'highlight-current' : ''} ${otroJugador ? 'highlight-player' : ''}`}
-        style={{ backgroundImage: imageSrc ? `url(${imageSrc})` : 'none' }}
-      >
-        {isCurrentPlayer && <span className="player-marker">{jugadorActual.Personaje.nombre[0]}</span>}
-        {otroJugador && <span className="player-marker">{otroJugador.Personaje.nombre[0]}</span>}
-      </div>
-    );
-  };
+  const hasCoin = cellType === "c" && cellVisited === "false"; // Detecta si debe haber moneda
+
+  return (
+    <div
+      key={`${rowIndex}-${colIndex}`}
+      className={`cell ${getClass(cellType)} ${
+        isCurrentPlayer ? "highlight-current" : ""
+      } ${otroJugador ? "highlight-player" : ""}`}
+      style={{ backgroundImage: imageSrc ? `url(${imageSrc})` : "none" }}
+    >
+      {hasCoin && (
+        <span className="coin-marker">💠</span> // Renderiza la moneda
+      )}
+      {isCurrentPlayer && (
+        <span className="player-marker">
+          {jugadorActual.Personaje?.nombre?.[0] || ""}
+        </span>
+      )}
+      {otroJugador && (
+        <span className="player-marker">
+          {otroJugador.Personaje?.nombre?.[0] || ""}
+        </span>
+      )}
+    </div>
+  );
+};
+
+  
 
   const getClass = (cellType) => {
     switch (cellType) {
@@ -242,7 +274,9 @@ function Board() {
       
       {/* Sidebar de Inventario */}
       <div className="inventory-sidebar">
-        <h3>Jugador Actual: {jugadorActual?.Personaje?.nombre || "Desconocido"}</h3>
+      <h3>Jugador Actual: {jugadorActual?.Personaje?.nombre || "Desconocido"}</h3>
+
+
         <h2>INVENTARIO</h2>
         <img src={ChestImage} alt="Cofre" className="chest-image" />
         {jugadorActual && (
@@ -303,14 +337,18 @@ function Board() {
         </div>
       </div>
 
-      {/* Contenedor del Tablero */}
       <div className="board-container">
         <div className="board">
-          {board.map((row, rowIndex) =>
-            row.map((cellData, colIndex) => renderCell(cellData, rowIndex, colIndex))
+          {board.length > 0 ? (
+            board.map((row, rowIndex) =>
+              row.map((cellData, colIndex) => renderCell(cellData, rowIndex, colIndex))
+            )
+          ) : (
+            <div className="loading-message">Cargando tablero...</div>
           )}
         </div>
       </div>
+
   
       {/* Contenedor de Dado */}
       <div className="dice-container">
